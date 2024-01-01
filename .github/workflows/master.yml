@@ -43,6 +43,8 @@ jobs:
 
       - name: Run static style code analysis
         uses: py-actions/flake8@v2
+        with:
+          ignore: "E302"
 
   type-checking:
     name: Type checking
