@@ -41,7 +41,7 @@ jobs:
       - name: Install Python dependencies
         uses: py-actions/py-dependency-install@v4
         with:
-          path: "requirements-dev.txt"
+          path: "src/requirements-dev.txt"
 
       - name: Type checking
         uses: tsuyoshicho/action-mypy@v3
@@ -76,7 +76,7 @@ jobs:
       - name: Install Python dependencies
         uses: py-actions/py-dependency-install@v4
         with:
-          path: "requirements-dev.txt"
+          path: "src/requirements-dev.txt"
 
       - name: Setup Snyk
         uses: snyk/actions/setup@master
@@ -103,7 +103,7 @@ jobs:
       - name: Install Python dependencies
         uses: py-actions/py-dependency-install@v4
         with:
-          path: "requirements-dev.txt"
+          path: "src/requirements-dev.txt"
 
       - name: Execute tests
         run: pytest src/api/tests/
