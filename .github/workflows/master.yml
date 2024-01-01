@@ -115,7 +115,7 @@ jobs:
       - name: Run Snyk
         run: |
           snyk test --file=src/requirements.txt
-          snyk test --file=src/requirements-dev.txt
+          snyk test --file=src/requirements-dev.txt --package-manager=pip
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
