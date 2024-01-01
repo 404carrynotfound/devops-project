@@ -20,7 +20,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: code
-          path: ./src
+          path: .
 
   static-style-code-analysis:
     name: Static style code analysis
@@ -65,8 +65,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install mypy
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
+          pip install -r src/requirements.txt
+          pip install -r src/requirements-dev.txt
 
       - name: Run type checking
         run: mypy .
@@ -122,8 +122,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
+          pip install -r src/requirements.txt
+          pip install -r src/requirements-dev.txt
 
       - name: Execute tests
         run: pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=app tests/ | tee pytest-coverage.txt
