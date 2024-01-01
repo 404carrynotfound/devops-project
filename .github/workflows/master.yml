@@ -98,11 +98,19 @@ jobs:
         with:
           name: code
           path: .
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
 
-      - name: Synk scan
-        uses: synk/actions@master
+      - name: Setup Snyk
+        uses: snyk/actions/setup@master
+      - name: Run Snyk
+        run: |
+          snyk test --file=src/requirements.txt
+          snyk test --file=src/requirements-dev.txt
         env:
-          SYNK_TOKEN: ${{ secrets.SYNK_TOKEN }}
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
   tests:
     name: Execute tests
