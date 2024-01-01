@@ -2,8 +2,7 @@ name: Test coverage
 
 on:
   pull_request:
-    branches:
-      [opened, synchronize, reopened, edited]
+    types: [ opened, synchronize, reopened, edited ]
 
 jobs:
   tests:
