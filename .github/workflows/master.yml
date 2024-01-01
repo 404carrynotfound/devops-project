@@ -73,7 +73,7 @@ jobs:
   sonar-scan:
     name: Sonar scan
     runs-on: ubuntu-latest
-    needs: [ checkout-code, static-style-code-analysis, type-checking ]
+    needs: checkout-code
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -90,7 +90,7 @@ jobs:
   synk-scan:
     name: Vulnerability scan
     runs-on: ubuntu-latest
-    needs: [ checkout-code, static-style-code-analysis, type-checking ]
+    needs: checkout-code
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -119,7 +119,7 @@ jobs:
   tests:
     name: Execute tests
     runs-on: ubuntu-latest
-    needs: [ synk-scan, sonar-scan ]
+    needs: [ static-style-code-analysis, type-checking, synk-scan, sonar-scan ]
     steps:
       - name: Setup Python
         uses: actions/setup-python@v4
