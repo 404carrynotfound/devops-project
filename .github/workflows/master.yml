@@ -68,6 +68,10 @@ jobs:
           name: code
           path: .
 
+      - name: Install dependencies
+        run: |
+          pip install mypy
+
       - name: Run type checking
         run: mypy .
 
