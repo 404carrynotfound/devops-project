@@ -9,37 +9,17 @@ on:
       - master
 
 jobs:
-  checkout-code:
-    name: Checkout code
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: code
-          path: .
-
   static-style-code-analysis:
     name: Static style code analysis
     runs-on: ubuntu-latest
-    needs: checkout-code
     steps:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.12
 
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: code
-          path: .
-
-      - name: Install dependencies
-        run: pip install pip install flake8
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Run static style code analysis
         uses: py-actions/flake8@v2
@@ -49,37 +29,31 @@ jobs:
   type-checking:
     name: Type checking
     runs-on: ubuntu-latest
-    needs: checkout-code
     steps:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.12
 
-      - name: Download artifact
-        uses: actions/download-artifact@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v4
         with:
-          name: code
-          path: .
+          path: "src/requirements-dev.txt"
 
-      - name: Install dependencies
-        run: |
-          pip install mypy
-          pip install -r src/requirements-dev.txt
-
-      - name: Run type checking
-        run: mypy .
+      - name: Type checking
+        uses: tsuyoshicho/action-mypy@v3
+        with:
+          level: warning
 
   sonar-scan:
     name: Sonar scan
     runs-on: ubuntu-latest
-    needs: checkout-code
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: code
-          path: .
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Sonar scan
         uses: SonarSource/sonarcloud-github-action@master
@@ -90,22 +64,19 @@ jobs:
   synk-scan:
     name: Vulnerability scan
     runs-on: ubuntu-latest
-    needs: checkout-code
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: code
-          path: .
-
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.12
 
-      - name: Install dependencies
-        run: |
-          pip install -r src/requirements-dev.txt
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v4
+        with:
+          path: "src/requirements-dev.txt"
 
       - name: Setup Snyk
         uses: snyk/actions/setup@master
@@ -126,15 +97,13 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: code
-          path: .
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          pip install -r src/requirements-dev.txt
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v4
+        with:
+          path: "src/requirements-dev.txt"
 
       - name: Execute tests
         run: pytest src/api/tests/
