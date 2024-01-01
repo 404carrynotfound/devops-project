@@ -61,7 +61,10 @@ jobs:
           path: .
 
       - name: Install dependencies
-        run: pip install mypy
+        run: |
+          pip install mypy
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
 
       - name: Run type checking
         run: mypy .
@@ -102,7 +105,7 @@ jobs:
   tests:
     name: Execute tests
     runs-on: ubuntu-latest
-    needs: synk-scan
+    needs: [ synk-scan, sonar-scan ]
     steps:
       - name: Setup Python
         uses: actions/setup-python@v4
