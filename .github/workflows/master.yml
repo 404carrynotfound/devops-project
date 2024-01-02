@@ -170,6 +170,9 @@ jobs:
     name: Deploy to MiniKube
     needs: [ scan-image ]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Start MiniKube
         uses: medyagh/setup-minikube@master
 
