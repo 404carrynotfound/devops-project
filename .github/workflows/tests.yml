@@ -2,8 +2,7 @@ name: Test coverage
 
 on:
   pull_request:
-    branches:
-      [opened, synchronize, reopened, edited]
+    types: [ opened, synchronize, reopened, edited ]
 
 jobs:
   tests:
@@ -15,12 +14,13 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          pip install -r src/requirements-dev.txt
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v4
+        with:
+          path: "src/requirements-dev.txt"
 
       - name: Execute tests
         run: pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered  --cov=src/api src/api/tests/ | tee pytest-coverage.txt
