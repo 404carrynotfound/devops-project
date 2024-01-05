@@ -63,7 +63,7 @@ This pipeline runs after pushing against master, on a pull request, and is sched
 minikube start
 ```
 
-### Apply k8s file
+### Apply files from k8s folder
 
 ```
 kubectl apply -f k8s
